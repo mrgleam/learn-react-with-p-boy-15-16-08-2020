@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext, useReducer } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useReducer,
+  useMemo,
+} from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
@@ -410,7 +416,8 @@ function Example(props) {
   const { fontSize } = useContext(FontSizeContext);
 
   // custom hook
-  const [countName] = useCountName(count, title);
+  // const [countName] = useCountName(count, title);
+  const countName = useMemo(() => title + " " + count, [title, count]);
 
   // watch [] do at fst time only
   useEffect(() => {
