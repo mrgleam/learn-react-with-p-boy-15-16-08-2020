@@ -498,6 +498,18 @@ function ExamHook() {
   );
 }
 
+// auto check state and props
+class App5 extends React.PureComponent {
+  state = {
+    count: 1
+  }
+
+  // not do this when extends PureComponent
+  shouldComponentUpdate(props, state) {
+    return this.state.count !== state.count;
+  }
+}
+
 ReactDOM.render(
   // <React.StrictMode>
   <Provider store={store}>
