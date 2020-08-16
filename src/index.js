@@ -241,9 +241,26 @@ class LifeCycle extends React.Component {
   }
 }
 
+function CompositionExample(props) {
+  return props.children;
+}
+
+function Composition() {
+  const isEvent = parseInt(Math.random() * 10 , 10) % 2 ===0
+  const ele = isEvent ? <h2>Even</h2> : <h2>Odd</h2>
+  return (
+    <>
+    <h1>{ele}</h1>
+    <CompositionExample>
+      {ele}
+    </CompositionExample>
+    </>
+  )
+}
+
 ReactDOM.render(
   // <React.StrictMode>
-  <App2 />,
+  <Composition />,
   // <Toggle />
   // <Hello title="Hello Function" />
   // <HelloComponent title={"Hello Component"} />
