@@ -501,8 +501,8 @@ function ExamHook() {
 // auto check state and props
 class App5 extends React.PureComponent {
   state = {
-    count: 1
-  }
+    count: 1,
+  };
 
   // not do this when extends PureComponent
   shouldComponentUpdate(props, state) {
@@ -510,11 +510,45 @@ class App5 extends React.PureComponent {
   }
 }
 
+function MemoComponent(props) {
+  // print only once.
+  console.log(props);
+
+  return (
+    <div>
+      <p>Name: {props.name}</p>
+      <p>Age: {props.age}</p>
+    </div>
+  );
+}
+
+const MMComponent = React.memo(MemoComponent)
+class App6 extends React.Component {
+  state = {
+    name: "test",
+    age: 20,
+  };
+
+  componentDidMount() {
+    setInterval(() => {
+      this.setState(({ age }) => ({ age: 30 }));
+    }, 1000);
+  }
+  render() {
+    return (
+      <div>
+        <MMComponent name={this.state.name} age={this.state.age} />
+      </div>
+    );
+  }
+}
+
 ReactDOM.render(
   // <React.StrictMode>
-  <Provider store={store}>
-    <TodoRedux />
-  </Provider>,
+  <App6 />,
+  // <Provider store={store}>
+  //   <TodoRedux />
+  // </Provider>,
 
   // <LoadingComponent isLoading={false} />,
   // <Composition />,
