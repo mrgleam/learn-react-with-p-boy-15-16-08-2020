@@ -275,7 +275,21 @@ class Todo extends React.Component {
   static contextType = ColorContext;
 
   render() {
-    return <p style={{ color: this.context.color }}>{this.props.title}</p>;
+    return (
+      <ColorContext.Consumer>
+        {({ color }) => {
+          return <FontSizeContext.Consumer>
+            {({ fontSize }) => {
+              return (
+                <p style={{ color, fontSize: fontSize + "px" }}>
+                  {this.props.title}
+                </p>
+              );
+            }}
+          </FontSizeContext.Consumer>;
+        }}
+      </ColorContext.Consumer>
+    );
   }
 }
 
@@ -292,7 +306,7 @@ function TodoList() {
 class App3 extends React.Component {
   state = {
     color: "pink",
-    fontSize: 17,
+    fontSize: 30,
     toggleColor: () => {
       this.setState(({ color }) => ({
         color: color === "pink" ? "green" : "pink",
@@ -300,10 +314,10 @@ class App3 extends React.Component {
     },
   };
   render() {
-    const {color, fontSize, toggleColor} = this.state
+    const { color, fontSize, toggleColor } = this.state;
     return (
-      <ColorContext.Provider value={{color, toggleColor}}>
-        <FontSizeContext.Provider value={{fontSize}}>
+      <ColorContext.Provider value={{ color, toggleColor }}>
+        <FontSizeContext.Provider value={{ fontSize }}>
           <TodoList />
         </FontSizeContext.Provider>
       </ColorContext.Provider>
