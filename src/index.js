@@ -460,6 +460,10 @@ const ItemXList = styled.li`
   font-size: 20px;
 `;
 
+const ItemXListPlus = styled(ItemXList)`
+  background-color: pink;
+`;
+
 function ExamHook() {
   const [items, setItems] = useState([]);
 
@@ -476,9 +480,9 @@ function ExamHook() {
       <input onKeyUp={(event) => handleKeyUp(event)} />
       <ul>
         {items.map((item, index) => (
-          <ItemXList color={'red'} key={index}>
+          <ItemXListPlus color={"red"} key={index}>
             {item}
-          </ItemXList>
+          </ItemXListPlus>
         ))}
       </ul>
     </>
