@@ -10,6 +10,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import './App.css';
 
 function Hello(props) {
   return <h1 alt={"test"}>With JSX {props.title}</h1>;
@@ -476,7 +477,7 @@ function ExamHook() {
       <input onKeyUp={(event) => handleKeyUp(event)} />
       <ul>
         {items.map((item, index) => (
-          <li key={index}>{item}</li>
+          <li className="list" key={index}>{item}</li>
         ))}
       </ul>
     </>
