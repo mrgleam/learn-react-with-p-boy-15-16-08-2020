@@ -380,14 +380,14 @@ const withLoadingComponent = (WrappedComponent) => {
       }
       return <WrappedComponent />;
     }
-  }
+  };
 };
 
 const LoadingComponent = withLoadingComponent(Hello2);
 
 ReactDOM.render(
   // <React.StrictMode>
-  <LoadingComponent isLoading={false}/>,
+  <LoadingComponent isLoading={false} />,
   // <Composition />,
   // <Toggle />
   // <Hello title="Hello Function" />
