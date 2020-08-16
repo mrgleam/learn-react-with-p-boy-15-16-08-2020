@@ -169,7 +169,7 @@ class HelloComponent extends React.Component {
 class App2 extends React.Component {
   state = {
     name: "",
-    count:  0
+    count: 0,
   };
 
   handleName = (name) => {
@@ -183,8 +183,10 @@ class App2 extends React.Component {
       <>
         {header}
         <InputComp handleName={this.handleName} />
-        <button onClick={() => this.setState({count : this.state.count + 1})}>add</button>
-        {this.state.count < 10 && <LifeCycle count={this.state.count}/>}
+        <button onClick={() => this.setState({ count: this.state.count + 1 })}>
+          add
+        </button>
+        {this.state.count < 10 && <LifeCycle count={this.state.count} />}
       </>
     );
   }
@@ -195,7 +197,7 @@ class LifeCycle extends React.Component {
     super(props);
     console.log("constructor");
     this.state = {
-      name: ''
+      name: "",
     };
   }
 
@@ -203,7 +205,7 @@ class LifeCycle extends React.Component {
     console.log("getDerivedStateFromProps");
     console.log(props, state);
     return {
-      name: props.count % 2 === 0 ? 'event' : 'odd'
+      name: props.count % 2 === 0 ? "event" : "odd",
     };
   }
 
@@ -222,10 +224,10 @@ class LifeCycle extends React.Component {
   }
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
-    console.log("getSnapshotBeforeUpdate"); 
+    console.log("getSnapshotBeforeUpdate");
     return {
-      count: prevProps.count
-    }
+      count: prevProps.count,
+    };
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -246,21 +248,73 @@ function CompositionExample(props) {
 }
 
 function Composition() {
-  const isEvent = parseInt(Math.random() * 10 , 10) % 2 ===0
-  const ele = isEvent ? <h2>Even</h2> : <h2>Odd</h2>
+  const isEvent = parseInt(Math.random() * 10, 10) % 2 === 0;
+  const ele = isEvent ? <h2>Even</h2> : <h2>Odd</h2>;
   return (
     <>
-    <h1>{ele}</h1>
-    <CompositionExample>
-      {ele}
-    </CompositionExample>
+      <h1>{ele}</h1>
+      <CompositionExample>{ele}</CompositionExample>
     </>
-  )
+  );
+}
+
+const ColorContext = React.createContext({});
+const FontSizeContext = React.createContext({});
+
+function ToggleTodoButton() {
+  return (
+    <ColorContext.Consumer>
+      {(context) => {
+        return <button onClick={context.toggleColor}>{context.color}</button>;
+      }}
+    </ColorContext.Consumer>
+  );
+}
+
+class Todo extends React.Component {
+  static contextType = ColorContext;
+
+  render() {
+    return <p style={{ color: this.context.color }}>{this.props.title}</p>;
+  }
+}
+
+function TodoList() {
+  return (
+    <div>
+      <Todo title={"Todo 1"} />
+      <Todo title={"Todo 2"} />
+      <ToggleTodoButton />
+    </div>
+  );
+}
+
+class App3 extends React.Component {
+  state = {
+    color: "pink",
+    fontSize: 17,
+    toggleColor: () => {
+      this.setState(({ color }) => ({
+        color: color === "pink" ? "green" : "pink",
+      }));
+    },
+  };
+  render() {
+    const {color, fontSize, toggleColor} = this.state
+    return (
+      <ColorContext.Provider value={{color, toggleColor}}>
+        <FontSizeContext.Provider value={{fontSize}}>
+          <TodoList />
+        </FontSizeContext.Provider>
+      </ColorContext.Provider>
+    );
+  }
 }
 
 ReactDOM.render(
   // <React.StrictMode>
-  <Composition />,
+  <App3 />,
+  // <Composition />,
   // <Toggle />
   // <Hello title="Hello Function" />
   // <HelloComponent title={"Hello Component"} />
