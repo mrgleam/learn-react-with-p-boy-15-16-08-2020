@@ -309,6 +309,7 @@ class App3 extends React.Component {
   state = {
     color: "pink",
     fontSize: 30,
+    count: 0,
     toggleColor: () => {
       this.setState(({ color }) => ({
         color: color === "pink" ? "green" : "pink",
@@ -316,20 +317,60 @@ class App3 extends React.Component {
     },
   };
   render() {
-    const { color, fontSize, toggleColor } = this.state;
+    const { color, fontSize, count, toggleColor } = this.state;
+    if (count > 5) {
+      throw Error("XXX");
+    }
     return (
       <ColorContext.Provider value={{ color, toggleColor }}>
         <FontSizeContext.Provider value={{ fontSize }}>
           <TodoList />
+          <button onClick={() => this.setState({ count: count + 1 })}>
+            {count}
+          </button>
         </FontSizeContext.Provider>
       </ColorContext.Provider>
     );
   }
 }
 
+class ErrorBoundaries extends React.Component {
+  state = {
+    isError: false,
+  };
+
+  static getDerivedStateFromError(error) {
+    return {
+      isError: true,
+    };
+  }
+
+  render() {
+    return (
+      <>
+        {this.state.isError ? (
+          <div>Something when wrong.</div>
+        ) : (
+          this.props.children
+        )}
+      </>
+    );
+  }
+}
+
+class AppX extends React.Component {
+  render() {
+    return (
+      <ErrorBoundaries>
+        <App3 />
+      </ErrorBoundaries>
+    );
+  }
+}
+
 ReactDOM.render(
   // <React.StrictMode>
-  <App3 />,
+  <AppX />,
   // <Composition />,
   // <Toggle />
   // <Hello title="Hello Function" />
