@@ -4,6 +4,7 @@ import React, {
   useContext,
   useReducer,
   useMemo,
+  useCallback,
 } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
@@ -417,7 +418,7 @@ function Example(props) {
 
   // custom hook
   // const [countName] = useCountName(count, title);
-  const countName = useMemo(() => title + " " + count, [title, count]);
+  const countName = useCallback((a) => title + " " + count + a, [title, count]);
 
   // watch [] do at fst time only
   useEffect(() => {
@@ -441,7 +442,7 @@ function Example(props) {
 
   return (
     <div>
-      <p>{countName}</p>
+      <p>{countName(1)}</p>
       <p style={{ color, fontSize: fontSize + "px" }}>{name}</p>
       <p>This is title: {title}</p>
       <input value={title} onChange={(event) => setTitle(event.target.value)} />
