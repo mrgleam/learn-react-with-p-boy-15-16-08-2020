@@ -11,6 +11,7 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import './App.css';
+import styled from 'styled-components';
 
 function Hello(props) {
   return <h1 alt={"test"}>With JSX {props.title}</h1>;
@@ -454,12 +455,10 @@ function Example(props) {
   );
 }
 
-function useSetItems(items, event) {
-  if (event && event.key === "Enter") {
-    return [[...items, event.target.value]];
-  }
-  return [items];
-}
+const ItemXList = styled.li`
+  color: blue;
+  font-size: 20px;
+`;
 
 function ExamHook() {
   const [items, setItems] = useState([]);
@@ -477,7 +476,9 @@ function ExamHook() {
       <input onKeyUp={(event) => handleKeyUp(event)} />
       <ul>
         {items.map((item, index) => (
-          <li className="list" key={index}>{item}</li>
+          <ItemXList key={index}>
+            {item}
+          </ItemXList>
         ))}
       </ul>
     </>
