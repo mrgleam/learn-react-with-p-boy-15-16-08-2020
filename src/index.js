@@ -368,9 +368,26 @@ class AppX extends React.Component {
   }
 }
 
+function Hello2() {
+  return <h1>Hello World!</h1>;
+}
+
+const withLoadingComponent = (WrappedComponent) => {
+  return class ComponentLoading extends React.Component {
+    render() {
+      if (this.props.isLoading) {
+        return <div>Loading</div>;
+      }
+      return <WrappedComponent />;
+    }
+  }
+};
+
+const LoadingComponent = withLoadingComponent(Hello2);
+
 ReactDOM.render(
   // <React.StrictMode>
-  <AppX />,
+  <LoadingComponent isLoading={false}/>,
   // <Composition />,
   // <Toggle />
   // <Hello title="Hello Function" />
