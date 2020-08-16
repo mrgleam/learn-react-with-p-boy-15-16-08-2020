@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useReducer } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
@@ -386,13 +386,24 @@ const withLoadingComponent = (WrappedComponent) => {
 
 const LoadingComponent = withLoadingComponent(Hello2);
 
+function reducer(state, action) {
+  switch (action.type) {
+    case "increment":
+      return state + 1;
+    case "decrement":
+      return state - 1;
+    default:
+      return state;
+  }
+}
+
 // custom hook
 function useCountName(count, title) {
   return [title + " " + count];
 }
 
 function Example(props) {
-  const [count, setCount] = useState(0);
+  const [count, dispatchCount] = useReducer(reducer, 0);
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
   const { color } = useContext(ColorContext);
@@ -428,7 +439,8 @@ function Example(props) {
       <p>This is title: {title}</p>
       <input value={title} onChange={(event) => setTitle(event.target.value)} />
       <p>{count}</p>
-      <button onClick={() => setCount(count + 1)}>Click</button>
+      <button onClick={() => dispatchCount({ type: "increment" })}>+</button>
+      <button onClick={() => dispatchCount({ type: "decrement" })}>-</button>
     </div>
   );
 }
