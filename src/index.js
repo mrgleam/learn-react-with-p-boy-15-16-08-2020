@@ -278,15 +278,17 @@ class Todo extends React.Component {
     return (
       <ColorContext.Consumer>
         {({ color }) => {
-          return <FontSizeContext.Consumer>
-            {({ fontSize }) => {
-              return (
-                <p style={{ color, fontSize: fontSize + "px" }}>
-                  {this.props.title}
-                </p>
-              );
-            }}
-          </FontSizeContext.Consumer>;
+          return (
+            <FontSizeContext.Consumer>
+              {({ fontSize }) => {
+                return (
+                  <p style={{ color, fontSize: fontSize + "px" }}>
+                    {this.props.title}
+                  </p>
+                );
+              }}
+            </FontSizeContext.Consumer>
+          );
         }}
       </ColorContext.Consumer>
     );
