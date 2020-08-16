@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
@@ -325,6 +325,7 @@ class App3 extends React.Component {
       <ColorContext.Provider value={{ color, toggleColor }}>
         <FontSizeContext.Provider value={{ fontSize }}>
           <TodoList />
+          {count < 5 && <Example title={"Hello"} />}
           <button onClick={() => this.setState({ count: count + 1 })}>
             {count}
           </button>
@@ -385,9 +386,44 @@ const withLoadingComponent = (WrappedComponent) => {
 
 const LoadingComponent = withLoadingComponent(Hello2);
 
+function Example(props) {
+  const [count, setCount] = useState(0);
+  const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
+  const { color } = useContext(ColorContext);
+  const { fontSize } = useContext(FontSizeContext);
+
+  // watch [] do at fst time only
+  useEffect(() => {
+    console.log("call api");
+    const interval = setInterval(() => {
+      console.log("xx");
+    }, 2000);
+    // when component destroy
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  useEffect(() => {
+    setName(title + " " + count);
+  }, [title]);
+
+  return (
+    <div>
+      <p style={{ color, fontSize: fontSize + "px" }}>{name}</p>
+      <p>This is title: {title}</p>
+      <input value={title} onChange={(event) => setTitle(event.target.value)} />
+      <p>{count}</p>
+      <button onClick={() => setCount(count + 1)}>Click</button>
+    </div>
+  );
+}
+
 ReactDOM.render(
   // <React.StrictMode>
-  <LoadingComponent isLoading={false} />,
+  <App3 />,
+  // <LoadingComponent isLoading={false} />,
   // <Composition />,
   // <Toggle />
   // <Hello title="Hello Function" />
