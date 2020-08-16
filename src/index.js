@@ -453,9 +453,39 @@ function Example(props) {
   );
 }
 
+function useSetItems(items, event) {
+  if (event && event.key === "Enter") {
+    return [[...items, event.target.value]];
+  }
+  return [items];
+}
+
+function ExamHook() {
+  const [items, setItems] = useState([]);
+
+  const handleKeyUp = (event) => {
+    if (event.key === "Enter") {
+      const value = event.target.value;
+      setItems([...items, value]);
+      event.target.value = "";
+    }
+  };
+
+  return (
+    <>
+      <input onKeyUp={(event) => handleKeyUp(event)} />
+      <ul>
+        {items.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+    </>
+  );
+}
+
 ReactDOM.render(
   // <React.StrictMode>
-  <App3 />,
+  <ExamHook />,
   // <LoadingComponent isLoading={false} />,
   // <Composition />,
   // <Toggle />
