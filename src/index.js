@@ -386,12 +386,20 @@ const withLoadingComponent = (WrappedComponent) => {
 
 const LoadingComponent = withLoadingComponent(Hello2);
 
+// custom hook
+function useCountName(count, title) {
+  return [title + " " + count];
+}
+
 function Example(props) {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
   const { color } = useContext(ColorContext);
   const { fontSize } = useContext(FontSizeContext);
+
+  // custom hook
+  const [countName] = useCountName(count, title);
 
   // watch [] do at fst time only
   useEffect(() => {
@@ -405,12 +413,17 @@ function Example(props) {
     };
   }, []);
 
+  // useEffect(() => {
+  //   setName(title + " " + count);
+  // }, [title]);
+
   useEffect(() => {
     setName(title + " " + count);
-  }, [title]);
+  }, [title, setName]);
 
   return (
     <div>
+      <p>{countName}</p>
       <p style={{ color, fontSize: fontSize + "px" }}>{name}</p>
       <p>This is title: {title}</p>
       <input value={title} onChange={(event) => setTitle(event.target.value)} />
