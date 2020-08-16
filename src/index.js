@@ -462,6 +462,9 @@ const ItemXList = styled.li`
 
 const ItemXListPlus = styled(ItemXList)`
   background-color: pink;
+  :hover {
+    background-color: green;
+  }
 `;
 
 function ExamHook() {
