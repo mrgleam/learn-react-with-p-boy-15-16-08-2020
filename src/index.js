@@ -10,8 +10,14 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import './App.css';
-import styled from 'styled-components';
+import "./App.css";
+import styled from "styled-components";
+import TodoRedux from "./redux/TodoRedux";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import reducer from "./redux/reducer";
+
+const store = createStore(reducer);
 
 function Hello(props) {
   return <h1 alt={"test"}>With JSX {props.title}</h1>;
@@ -395,7 +401,7 @@ const withLoadingComponent = (WrappedComponent) => {
 
 const LoadingComponent = withLoadingComponent(Hello2);
 
-function reducer(state, action) {
+function reducer2(state, action) {
   switch (action.type) {
     case "increment":
       return state + 1;
@@ -412,7 +418,7 @@ function useCountName(count, title) {
 }
 
 function Example(props) {
-  const [count, dispatchCount] = useReducer(reducer, 0);
+  const [count, dispatchCount] = useReducer(reducer2, 0);
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
   const { color } = useContext(ColorContext);
@@ -456,7 +462,7 @@ function Example(props) {
 }
 
 const ItemXList = styled.li`
-  color: ${props => props.color ? props.color : "blue"};
+  color: ${(props) => (props.color ? props.color : "blue")};
   font-size: 20px;
 `;
 
@@ -494,7 +500,10 @@ function ExamHook() {
 
 ReactDOM.render(
   // <React.StrictMode>
-  <ExamHook />,
+  <Provider store={store}>
+    <TodoRedux />
+  </Provider>,
+
   // <LoadingComponent isLoading={false} />,
   // <Composition />,
   // <Toggle />
