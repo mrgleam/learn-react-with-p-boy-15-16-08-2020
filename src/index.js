@@ -456,7 +456,7 @@ function Example(props) {
 }
 
 const ItemXList = styled.li`
-  color: blue;
+  color: ${props => props.color ? props.color : "blue"};
   font-size: 20px;
 `;
 
@@ -476,7 +476,7 @@ function ExamHook() {
       <input onKeyUp={(event) => handleKeyUp(event)} />
       <ul>
         {items.map((item, index) => (
-          <ItemXList key={index}>
+          <ItemXList color={'red'} key={index}>
             {item}
           </ItemXList>
         ))}
